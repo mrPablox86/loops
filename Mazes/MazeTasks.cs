@@ -30,37 +30,34 @@ namespace Mazes
 
 		public static void MoveOutFromSnakeMaze(Robot robot, int width, int height)
 		{
-            var k = 0;
-            while(k != 6)
+            while( robot.Pos.Y != ( height-2 ) )
             {
-                MoveSnake(robot, Direction.Right);
-
+                MoveSnakeTurn(robot, Direction.Right, width);
                 MoveSnakeDown(robot, Direction.Down);
-
-                MoveSnake(robot, Direction.Left);
-
-                k++;
+                MoveSnakeTurn(robot, Direction.Left, width);
+                MoveSnakeDown(robot, Direction.Down);
+                
             }
-            MoveSnakeDown(robot, Direction.Down);
 		}
 
-        public static void MoveSnakeDown(Robot robot, Direction dir)
+        public static void MoveSnakeTurn(Robot robot, Direction dir, int width)
         {
-            for (var j = 0; j < 2; j++)
+            while ( true )
             {
-                robot.MoveTo(dir);
+                if ( robot.Pos.X != width - 2 )
+                    robot.MoveTo(dir);
+                else
+                    break;
             }
         }
 
-        public static void MoveSnake(Robot robot, Direction dir)
+        public static void MoveSnakeDown( Robot robot, Direction dir )
         {
-             for ( var i = 0; i < 25; i++)
-             {
-                 robot.MoveTo(dir);
-             }
+            for ( var i = 0; i < 2; i++ )
+                robot.MoveTo(dir);
         }
 
-		public static void MoveOutFromPyramidMaze(Robot robot, int width, int height)
+        public static void MoveOutFromPyramidMaze( Robot robot, int width, int height )
 		{ 
 		}
 	}
