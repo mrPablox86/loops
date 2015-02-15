@@ -27,24 +27,35 @@ namespace Mazes
                 return;
             }
 		}
-
+       
 		public static void MoveOutFromSnakeMaze(Robot robot, int width, int height)
 		{
             while( robot.Pos.Y != ( height-2 ) )
             {
-                MoveSnakeTurn(robot, Direction.Right, width);
+                MoveSnakeStraightOnRIght(robot, Direction.Right, width);
                 MoveSnakeDown(robot, Direction.Down);
-                MoveSnakeTurn(robot, Direction.Left, width);
-                MoveSnakeDown(robot, Direction.Down);
-                
+                MoveSnakeStraightOnLeft(robot, Direction.Left, width);
+                if ( robot.Pos.Y != (height - 2) )
+                    MoveSnakeDown(robot, Direction.Down);
             }
 		}
 
-        public static void MoveSnakeTurn(Robot robot, Direction dir, int width)
+        public static void MoveSnakeStraightOnRIght(Robot robot, Direction dir, int width)
         {
             while ( true )
             {
                 if ( robot.Pos.X != width - 2 )
+                    robot.MoveTo(dir);
+                else
+                    break;
+            }
+        }
+
+        public static void MoveSnakeStraightOnLeft( Robot robot, Direction dir, int width )
+        {
+            while ( true )
+            {
+                if ( robot.Pos.X != width-(width - 1) )
                     robot.MoveTo(dir);
                 else
                     break;
@@ -58,7 +69,23 @@ namespace Mazes
         }
 
         public static void MoveOutFromPyramidMaze( Robot robot, int width, int height )
-		{ 
-		}
+		{
+            var countStep = width;
+            while ( robot.Pos.Y != height - (height - 1) )
+            {
+                MoveSnakeStraightOnRIght(robot, Direction.Right, countStep);
+                MoveSnakeUp(robot, Direction.Up);
+                countStep = countStep-2;
+                MoveSnakeStraightOnLeft(robot, Direction.Left, countStep);
+                MoveSnakeUp(robot, Direction.Up);
+                countStep = countStep-2;
+            }
+        }
+
+        public static void MoveSnakeUp( Robot robot, Direction dir )
+        {
+            for ( var i = 0; i < 2; i++ )
+                robot.MoveTo(dir);
+        }
 	}
 }
